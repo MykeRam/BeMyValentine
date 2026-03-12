@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine</title>
+  <style>
+    :root {
+      --bg-a: #f7dbe8;
+      --bg-b: #f1cddd;
+      --card: #ffffff;
+      --text: #1d1d1f;
+      --yes: #ff4f9f;
+      --no: #efefef;
+      --shadow: 0 16px 35px rgba(149, 90, 118, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top, var(--bg-a), var(--bg-b));
+      font-family: "Trebuchet MS", "Avenir Next", sans-serif;
+      color: var(--text);
+      padding: 24px;
+    }
+
+    .card {
+      width: min(560px, 100%);
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 42px 30px 34px;
+      text-align: center;
+    }
+
+    .cat-wrap {
+      position: relative;
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 14px;
+    }
+
+    .cat {
+      position: absolute;
+      inset: 16px 8px 8px;
+      background: #f5bf82;
+      border-radius: 50%;
+    }
+
+    .cat::before,
+    .cat::after {
+      content: "";
+      position: absolute;
+      top: -8px;
+      width: 18px;
+      height: 18px;
+      background: #deac74;
+      border-radius: 3px 12px 12px 12px;
+      transform: rotate(35deg);
+    }
+
+    .cat::before {
+      left: 14px;
+    }
+
+    .cat::after {
+      right: 14px;
+      transform: rotate(55deg);
+    }
+
+    .eye {
+      position: absolute;
+      top: 45px;
+      width: 7px;
+      height: 7px;
+      background: #1f1f1f;
+      border-radius: 50%;
+    }
+
+    .eye.left {
+      left: 33px;
+    }
+
+    .eye.right {
+      right: 33px;
+    }
+
+    .nose {
+      position: absolute;
+      top: 54px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 9px;
+      height: 8px;
+      background: #ff6c90;
+      border-radius: 50% 50% 60% 60%;
+    }
+
+    .heart {
+      position: absolute;
+      top: 12px;
+      right: 3px;
+      width: 19px;
+      height: 19px;
+      background: #ff2a86;
+      transform: rotate(-45deg);
+      border-radius: 3px;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 19px;
+      height: 19px;
+      background: #ff2a86;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -9px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 9px;
+      top: 0;
+    }
+
+    h1 {
+      margin: 2px 0 28px;
+      font-size: clamp(1.7rem, 2.4vw, 2.2rem);
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .actions {
+      position: relative;
+      width: min(340px, 100%);
+      height: 120px;
+      margin: 0 auto 16px;
+    }
+
+    .actions button {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: box-shadow 0.16s ease;
+    }
+
+    button:hover {
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.13);
+    }
+
+    .yes {
+      left: 40%;
+      background: var(--yes);
+      color: #fff;
+      min-width: 76px;
+      transition: transform 0.22s ease, box-shadow 0.16s ease;
+    }
+
+    .yes.expanded {
+      transform: translate(-50%, -50%) scale(3.2);
+    }
+
+    .actions .no {
+      position: fixed;
+      background: var(--no);
+      color: #323232;
+      min-width: 62px;
+      transition: box-shadow 0.16s ease;
+      z-index: 30;
+    }
+
+    .hint {
+      margin: 0;
+      color: #6d6d6d;
+      font-size: 0.78rem;
+    }
+
+    .hint-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .restart {
+      font-size: 0.78rem;
+      color: #ff2a86;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .gif-wrap {
+      width: min(360px, 100%);
+      margin: 0 auto 16px;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="cat-wrap" aria-hidden="true">
+      <div class="heart"></div>
+      <div class="cat"></div>
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="nose"></div>
+    </div>
+
+    <h1>Mia would you be my Valentine?</h1>
+
+    <div class="actions">
+      <button class="yes" type="button">Yes</button>
+      <button class="no" type="button">No</button>
+    </div>
+
+    <div class="gif-wrap" id="gifWrap" hidden>
+      <div class="tenor-gif-embed" data-postid="12973294" data-share-method="host" data-aspect-ratio="1.66" data-width="100%">
+        <a href="https://tenor.com/view/wednesday-mind-blown-wow-whoa-gif-12973294">Wednesday Mind Blown GIF</a>
+        from
+        <a href="https://tenor.com/search/wednesday-gifs">Wednesday GIFs</a>
+      </div>
+    </div>
+
+    <div class="hint-row">
+      <p class="hint">"No" seems a bit shy.</p>
+      <a class="restart" id="restartLink" href="" hidden>Restart</a>
+    </div>
+  </main>
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+  <script>
+    const actions = document.querySelector(".actions");
+    const yesButton = document.querySelector(".yes");
+    const noButton = document.querySelector(".no");
+    const gifWrap = document.querySelector("#gifWrap");
+    const restartLink = document.querySelector("#restartLink");
+    const YES_MAX_SCALE = 3.2;
+    let lastNoPosition = null;
+    let accepted = false;
+
+    function boxesOverlap(a, b, gap = 0) {
+      return !(
+        a.right + gap < b.left ||
+        a.left - gap > b.right ||
+        a.bottom + gap < b.top ||
+        a.top - gap > b.bottom
+      );
+    }
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function getYesProtectedRect() {
+      const liveRect = yesButton.getBoundingClientRect();
+      const centerX = (liveRect.left + liveRect.right) / 2;
+      const centerY = (liveRect.top + liveRect.bottom) / 2;
+      const maxYesWidth = Math.max(liveRect.width, yesButton.offsetWidth * YES_MAX_SCALE);
+      const maxYesHeight = Math.max(liveRect.height, yesButton.offsetHeight * YES_MAX_SCALE);
+      const safetyPad = 18;
+
+      return {
+        left: centerX - (maxYesWidth / 2) - safetyPad,
+        right: centerX + (maxYesWidth / 2) + safetyPad,
+        top: centerY - (maxYesHeight / 2) - safetyPad,
+        bottom: centerY + (maxYesHeight / 2) + safetyPad
+      };
+    }
+
+    function expandYesButton() {
+      yesButton.classList.add("expanded");
+      moveNoButton();
+    }
+
+    function collapseYesButton() {
+      yesButton.classList.remove("expanded");
+    }
+
+    function moveNoButton() {
+      if (accepted) {
+        return;
+      }
+
+      const yesProtectedRect = getYesProtectedRect();
+      const buttonWidth = noButton.offsetWidth;
+      const buttonHeight = noButton.offsetHeight;
+      const pad = 12;
+      const overlapGap = 0;
+      const minJumpDistance = 24;
+
+      const minX = (buttonWidth / 2) + pad;
+      const maxX = window.innerWidth - (buttonWidth / 2) - pad;
+      const minY = (buttonHeight / 2) + pad;
+      const maxY = window.innerHeight - (buttonHeight / 2) - pad;
+
+      const validSpots = [];
+      const semiValidSpots = [];
+
+      for (let i = 0; i < 90; i += 1) {
+        const candidateX = randomInRange(minX, maxX);
+        const candidateY = randomInRange(minY, maxY);
+        const candidateRect = {
+          left: candidateX - (buttonWidth / 2),
+          right: candidateX + (buttonWidth / 2),
+          top: candidateY - (buttonHeight / 2),
+          bottom: candidateY + (buttonHeight / 2)
+        };
+
+        if (!boxesOverlap(candidateRect, yesProtectedRect, overlapGap)) {
+          const jumpDistance = lastNoPosition
+            ? Math.hypot(candidateX - lastNoPosition.x, candidateY - lastNoPosition.y)
+            : minJumpDistance + 1;
+
+          if (jumpDistance >= minJumpDistance) {
+            validSpots.push({ x: candidateX, y: candidateY });
+          } else {
+            semiValidSpots.push({ x: candidateX, y: candidateY });
+          }
+        }
+      }
+
+      let pickedSpot = null;
+      if (validSpots.length > 0) {
+        pickedSpot = validSpots[Math.floor(Math.random() * validSpots.length)];
+      } else if (semiValidSpots.length > 0) {
+        pickedSpot = semiValidSpots[Math.floor(Math.random() * semiValidSpots.length)];
+      } else {
+        const fallbackSpots = [
+          { x: minX, y: minY },
+          { x: maxX, y: minY },
+          { x: minX, y: maxY },
+          { x: maxX, y: maxY }
+        ];
+        const safeFallbacks = fallbackSpots.filter((spot) => {
+          const candidateRect = {
+            left: spot.x - (buttonWidth / 2),
+            right: spot.x + (buttonWidth / 2),
+            top: spot.y - (buttonHeight / 2),
+            bottom: spot.y + (buttonHeight / 2)
+          };
+          return !boxesOverlap(candidateRect, yesProtectedRect, overlapGap);
+        });
+        const pool = safeFallbacks.length > 0 ? safeFallbacks : fallbackSpots;
+        pickedSpot = pool[Math.floor(Math.random() * pool.length)];
+      }
+
+      noButton.style.left = `${pickedSpot.x}px`;
+      noButton.style.top = `${pickedSpot.y}px`;
+      lastNoPosition = pickedSpot;
+    }
+
+    function placeNoNearCard() {
+      const actionsRect = actions.getBoundingClientRect();
+      const startX = actionsRect.left + (actionsRect.width * 0.6);
+      const startY = actionsRect.top + (actionsRect.height / 2);
+      noButton.style.left = `${startX}px`;
+      noButton.style.top = `${startY}px`;
+      lastNoPosition = { x: startX, y: startY };
+    }
+
+    function pointerIsNearNoButton(event) {
+      const rect = noButton.getBoundingClientRect();
+      const buffer = 28;
+      return (
+        event.clientX >= rect.left - buffer &&
+        event.clientX <= rect.right + buffer &&
+        event.clientY >= rect.top - buffer &&
+        event.clientY <= rect.bottom + buffer
+      );
+    }
+
+    function dodgeIfNeeded(event) {
+      if (accepted) {
+        return;
+      }
+
+      if (pointerIsNearNoButton(event)) {
+        moveNoButton();
+      }
+    }
+
+    function acceptValentine() {
+      accepted = true;
+      yesButton.classList.remove("expanded");
+      actions.style.display = "none";
+      gifWrap.hidden = false;
+      restartLink.hidden = false;
+    }
+
+    noButton.addEventListener("pointerenter", moveNoButton);
+    noButton.addEventListener("pointermove", moveNoButton);
+    noButton.addEventListener("focus", moveNoButton);
+    noButton.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      moveNoButton();
+    });
+    noButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      moveNoButton();
+    });
+    document.addEventListener("pointermove", dodgeIfNeeded);
+    window.addEventListener("resize", moveNoButton);
+
+    yesButton.addEventListener("pointerenter", expandYesButton);
+    yesButton.addEventListener("pointerleave", collapseYesButton);
+    yesButton.addEventListener("focus", expandYesButton);
+    yesButton.addEventListener("blur", collapseYesButton);
+    yesButton.addEventListener("click", acceptValentine);
+    placeNoNearCard();
+  </script>
+</body>
+</html>
