@@ -214,6 +214,14 @@
       width: min(360px, 100%);
       margin: 0 auto 16px;
     }
+
+    .yay {
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 3vw, 2.3rem);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
   </style>
 </head>
 <body>
@@ -226,7 +234,8 @@
       <div class="nose"></div>
     </div>
 
-    <h1>Mia would you be my Valentine?</h1>
+    <h1>Mia, would you be my Valentine?</h1>
+    <p class="yay" id="yayText" hidden>YAY! 🎉</p>
 
     <div class="actions">
       <button class="yes" type="button">Yes</button>
@@ -252,6 +261,7 @@
     const yesButton = document.querySelector(".yes");
     const noButton = document.querySelector(".no");
     const gifWrap = document.querySelector("#gifWrap");
+    const yayText = document.querySelector("#yayText");
     const restartLink = document.querySelector("#restartLink");
     const YES_MAX_SCALE = 3.2;
     let lastNoPosition = null;
@@ -402,6 +412,7 @@
       accepted = true;
       yesButton.classList.remove("expanded");
       actions.style.display = "none";
+      yayText.hidden = false;
       gifWrap.hidden = false;
       restartLink.hidden = false;
     }
